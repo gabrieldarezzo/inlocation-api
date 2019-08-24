@@ -13,6 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+
+        /*
+        // MIGRATIONS
+        CREATE TABLE user(
+            id bigint(11) AUTO_INCREMETN PRIMARY KEY,
+            name VARCHAR(250) NOT NULL,
+            ...
+
+        )Engine=Innodb;
+
+        */
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -27,7 +38,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('status')->default(1);
             $table->dateTime('deleted_at')->nullable();
 
-            $table->bigInteger('user_id')->unsigned()->nullable(); // User-deleted
+            $table->bigInteger('deleted_user_id')->unsigned()->nullable(); // User-deleted
             $table->foreign('user_id')
                 ->on('users')->references('id')
                 ->onDelete('restrict')

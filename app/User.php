@@ -22,6 +22,7 @@ class User extends Authenticatable
         'lat',
         'lng',
         'status',
+        'deleted_user_id',
         'deleted_at'
     ];
 

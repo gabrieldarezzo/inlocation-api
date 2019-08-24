@@ -17,6 +17,7 @@ Route::get('/', function() {
     return 'Route Not Defined';
 });
 
+// crud create , read, readAll, update, delete
 Route::resource('users', 'UserController');
 
 Route::get('/tt', function() {

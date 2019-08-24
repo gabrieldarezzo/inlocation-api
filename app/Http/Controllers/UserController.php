@@ -7,6 +7,8 @@ use Carbon\Carbon;
 
 
 use App\User;
+use App\Http\Requests\UserRequest;
+
 
 class UserController extends Controller
 {
@@ -18,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return User::where('status', 1)->get();
     }
 
     /**
@@ -37,11 +39,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-
         $userData = $request->all();
-
         // bcrypt('password') -> Hash(salt + md5) Ex: '$2y$10$tVCkTDpWgxLyGesYXZsLr.6tKSCb3qds3VE.bLP3BPcLvSm9qbY/S'
         $userData['password'] = bcrypt($userData['password']);
         return User::create($userData);
