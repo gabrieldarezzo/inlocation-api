@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 
@@ -22,6 +23,53 @@ class UserController extends Controller
     {
         return User::where('status', 1)->get();
     }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNextUsers(Request $request)
+    {
+        // return User::where('status', 1)->get();
+        // return DB::select('select * from users where status = ?', [1]);
+
+        // $lat = "-23.9772151";
+        // $lng = "-46.3082780";
+
+        $requestData = $request->all();
+
+        $lat = $requestData['lat'];
+        $lng = $requestData['lng'];
+
+        if(!empty($requestData['km_distance'])) {
+            $km_distance = $requestData['km_distance'];
+        } else {
+            $km_distance = 10;
+        }
+
+
+        return DB::select("
+            SELECT
+                (((ACOS(SIN(($lat *PI()/180)) * SIN((`lat`*PI()/180))+COS(($lat *PI()/180))  * COS((`lat`*PI()/180)) * COS((($lng - `lng`)*PI()/180))))*180/PI())*60*1.1515*1.609344) AS distance,
+                name,
+                lat,
+                lng
+
+            FROM users
+            WHERE
+                (((ACOS(SIN(($lat *PI()/180)) * SIN((`lat`*PI()/180))+COS(($lat *PI()/180))  * COS((`lat`*PI()/180)) * COS((($lng - `lng`)*PI()/180))))*180/PI())*60*1.1515*1.609344) <= $km_distance
+                and status = :status
+            ORDER BY distance
+        ", [
+            'status' => 1,
+            // 'lat' => -23.9772151
+        ]);
+
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

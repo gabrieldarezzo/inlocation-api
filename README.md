@@ -51,6 +51,9 @@ How make easy dev with Mobile / External test:
 ```
 php artisan serve
 php artisan serve --host 192.168.0.16 --port 8000
+php artisan serve --host 192.168.0.8 --port 8000
+
+
 ```
 
 # To Seed this

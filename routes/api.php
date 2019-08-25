@@ -19,6 +19,12 @@ Route::get('/', function() {
 
 // crud create , read, readAll, update, delete
 Route::resource('users', 'UserController');
+Route::post('users_next', 'UserController@getNextUsers');
+/*
+Route::get('users_next', function(){
+    return 'aaa';
+});
+*/
 
 Route::get('/tt', function() {
     return \Carbon\Carbon::now()->toDateTimeString();
